@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  react-app:
+    build: ./frontend/
+    environment:
+      # - CHOKIDAR_USEPOLLING=true # create-ui-app <= 5.x
+      - WATCHPACK_POLLING=true # create-ui-app >= 5.x
+      # - FAST_REFRESH=false
+      # - WDS_SOCKET_PORT=30000 # The mapped port on your host machine
+      
+      #will use this in the frontend to check if the app is running in docker
+      #if yes, we will change the proxy to the backend service name
+      - REACT_APP_IS_DOCKER=true
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    links:
+      - node-app
+    volumes:
+      #dont take anything from my machine to this folder
+      - /app/node_modules
+      - ./frontend:/app
+      
+    networks:
+      - mern-app
+  
+  node-app:
+    build: ./backend/
+    environment:
+      - CHOKIDAR_USEPOLLING=true # create-ui-app <= 5.x
+    ports:
+      - "4000:4000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+     
+    networks:
+      - mern-app
+    
+
+networks:
+  mern-app:
+    driver: bridge
+
+
+
