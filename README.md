@@ -1,19 +1,23 @@
-npm init -y -> package.json
-npm install express -> node modules, package-lock
+Create .env file: backend/.env
+add the following:
+```
+PORT=4000
+MONGO_URL=<mongo_url_from_atlas>
+JSW_SECRET=<random_secret>
+```
 
-npm install -g nodemon
-node server.js / nodemon server.js / npm run dev
+To run using docker:
+from root directory of repo run ``` docker compose up --build -d ```
 
-npm install dotenv
+to run without docker (from root of repo):
+```
+cd backend
+npm install
+npm run dev
+```
 
-npm install mongoose
-
-
-npx create-react-app frontend
-npm install react-router-dom
-
-
-
-# "proxy": "http://node-app:4000",
-# "proxy": "http://localhost:4000",
-<!-- "proxy": "http://node-app:4000", -->
+```
+cd frontend
+npm install
+npm start
+```
