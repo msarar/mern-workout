@@ -3,12 +3,12 @@ steps:
   - id: 'build frontend'
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA', '.']
-    dir: './frontend'
+    dir: 'frontend'
   # push the frontend image to google container registry
   - id: 'push frontend'
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA']
-    dir: './frontend'
+    dir: 'frontend'
   
 
 
