@@ -1,0 +1,12 @@
+commands for frontend deployment 
+
+docker build -t mern-frontend .
+docker tag mern-frontend us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image
+docker push us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image
+
+
+
+backend deployment:
+docker build -t mern-backend .
+docker tag mern-backend us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-img
+docker push us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-img
