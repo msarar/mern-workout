@@ -6,7 +6,7 @@ const WorkoutDetails = ({workout, setToUpdate}) => {
 
     const {user} = useAuthContext();
     // const base_url = process.env.REACT_APP_IS_DOCKER? "http://node-app:4000" : 'http://localhost:4000';
-    const base_url = 'http://localhost:4000';
+    const base_url = process.env.REACT_APP_BASE_URL;
     const full_url = base_url + '/api/workouts/'+ workout._id;
 
     const handleDelete = async () => {

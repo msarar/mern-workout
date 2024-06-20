@@ -15,7 +15,8 @@ const mongoose = require('mongoose');
 const app = express();
 
 corsOptions = {
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: "*", // for deployment, change to "http://localhost:3000
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", ], 
 }

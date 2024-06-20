@@ -15,7 +15,8 @@ const WorkoutForm = ({toUpdate}) => {
     const {user} = useAuthContext();
 
     // const base_url = process.env.REACT_APP_IS_DOCKER? "http://node-app:4000" : 'http://localhost:4000';
-    const base_url = 'http://localhost:4000';
+    // const base_url = 'http://localhost:4000';
+    const base_url = process.env.REACT_APP_BASE_URL;
     const create_url = base_url + '/api/workouts/';
     //might need to make this a state moving forward; for now, it's working
     let update_url = '';
