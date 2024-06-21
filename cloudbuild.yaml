@@ -1,15 +1,12 @@
 steps:
-  #echo hello world
-  - name: 'ubuntu'
-    args: ['hello', 'world']
-  # #build the dockerfile in the frontend directory
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: ['build', '-t', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA', '.']
-  #   dir: 'frontend'
-  # # push the frontend image to google container registry
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: ['push', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA']
-  #   dir: 'frontend'
+  #build the dockerfile in the frontend directory
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA', '.']
+    dir: 'frontend'
+  # push the frontend image to google container registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA']
+    dir: 'frontend'
 options:
   logging: CLOUD_LOGGING_ONLY
 
