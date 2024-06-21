@@ -10,7 +10,8 @@ steps:
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: ['push', 'gcr.io/mern-cloud-run-cloud-build/ar-mern-frontend:$SHORT_SHA']
   #   dir: 'frontend'
-  
+options:
+  logging: CLOUD_LOGGING_ONLY
 
 
 
