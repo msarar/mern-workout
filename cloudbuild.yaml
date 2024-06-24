@@ -24,8 +24,6 @@ steps:
     entrypoint: 'bash'
     args: ['-c', 'cat workspace/backend-url.txt']
 
-
-
   #build the dockerfile in the frontend directory
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '.']
