@@ -1,7 +1,7 @@
 steps:
   #build the dockerfile in the backend directory
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '--build-arg="PORT=${_PORT}"', '--build-arg="MONGO_URI=${_MONGO_URI}"', '--build-arg="JWT_SECRET=${_JWT_SECRET}"','.']
+    args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '--build-arg="PORT=$_PORT"', '--build-arg="MONGO_URI=$_MONGO_URI"', '--build-arg="JWT_SECRET=$_JWT_SECRET"','.']
     dir: 'backend'
     env:
       - 'PORT=${_PORT}'
