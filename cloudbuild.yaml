@@ -1,19 +1,14 @@
 steps:
   #build the dockerfile in the backend directory
-  - name: 'gcr.io/cloud-builders/docker'
-    # env:
-    #   - 'PORT=${_PORT}'
-    #   - 'MONGO_URI=${_MONGO_URI}'
-    #   - 'JWT_SECRET=${_JWT_SECRET}'
-    
+  - name: 'gcr.io/cloud-builders/docker'    
     args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '.']
     dir: 'backend'
-    # '--build-arg=PORT=${PORT}', '--build-arg=MONGO_URI=${MONGO_URI}', '--build-arg=JWT_SECRET=${JWT_SECRET}'
     
   # push the backend image to google container registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA']
     dir: 'backend'
+
   # deploy the backend image to cloud run
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run', 'deploy', 'cr-mern-backend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated']
@@ -31,22 +26,21 @@ steps:
 
 
 
-  # #build the dockerfile in the frontend directory
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '.']
-  #   dir: 'frontend'
-  # # push the frontend image to google container registry
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   args: ['push', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA']
-  #   dir: 'frontend'
-  # # deploy the frontend image to cloud run
+  #build the dockerfile in the frontend directory
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '.']
+    dir: 'frontend'
+  # push the frontend image to google container registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA']
+    dir: 'frontend'
+  # deploy the frontend image to cloud run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'cr-mern-frontend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated']
+    dir: 'frontend'
+  # #get deployment url and write it to workspace
   # - name: 'gcr.io/cloud-builders/gcloud'
-  #   args: ['run', 'deploy', 'cr-mern-frontend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated']
-  #   dir: 'frontend'
-  # # #get deployment url and write it to workspace
-  # # - name: 'gcr.io/cloud-builders/gcloud'
-
-  # #   args: ['run', 'services', 'describe', 'cr-mern-frontend', '--platform', 'managed', '--region', 'us-west1', '--format', 'value(status.url)']
+  #   args: ['run', 'services', 'describe', 'cr-mern-frontend', '--platform', 'managed', '--region', 'us-west1', '--format', 'value(status.url)']
 
 options:
   logging: CLOUD_LOGGING_ONLY
