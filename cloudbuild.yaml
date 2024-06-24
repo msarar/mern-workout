@@ -6,7 +6,7 @@ steps:
       - 'MONGO_URI=${_MONGO_URI}'
       - 'JWT_SECRET=${_JWT_SECRET}'
     #print env vars
-    args: ['echo', 'PORT=${PORT}', 'MONGO_URI=${MONGO_URI}', 'JWT_SECRET=${JWT_SECRET}']
+    args: ['echo', '${PORT}', '${MONGO_URI}', '${JWT_SECRET}']
     
   #   args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '--build-arg=PORT=${PORT}', '--build-arg=MONGO_URI=${MONGO_URI}', '--build-arg=JWT_SECRET=${JWT_SECRET}','.']
   #   dir: 'backend'
