@@ -16,7 +16,7 @@ steps:
 
   #get deployment url and write it to workspace
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'services', 'describe', 'cr-mern-backend', '--platform', 'managed', '--region', 'us-west1', '--format', '"value(status.url)"']
+    args: ['run', 'services', 'describe', 'cr-mern-backend', '--platform', 'managed', '--region', 'us-west1', '--format="value(status.url)"']
   
   # #print the deployment url
   # - name: 'gcr.io/cloud-builders/gcloud'
