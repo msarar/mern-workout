@@ -8,5 +8,6 @@ docker push us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/
 
 backend deployment:
 docker build -t mern-backend .
-docker tag mern-backend us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-img
-docker push us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-img
+docker tag mern-backend us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image
+docker push uus-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image
+gcloud run deploy cr-mern-backend --image us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image --platform managed --region us-west1 --allow-unauthenticated
