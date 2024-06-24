@@ -16,12 +16,12 @@ steps:
 
   #get deployment url and write it to workspace
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'services', 'describe', 'cr-mern-backend', '--platform', 'managed', '--region', 'us-west1', '--format', '"value(status.url)"', '>', '/workspace/backend-url.txt']
+    args: ['run', 'services', 'describe', 'cr-mern-backend', '--platform', 'managed', '--region', 'us-west1', '--format', '"value(status.url)"']
   
-  #print the deployment url
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args: ['-c', 'cat workspace/backend-url.txt']
+  # #print the deployment url
+  # - name: 'gcr.io/cloud-builders/gcloud'
+  #   entrypoint: 'bash'
+  #   args: ['-c', 'cat workspace/backend-url.txt']
 
   #build the dockerfile in the frontend directory
   - name: 'gcr.io/cloud-builders/docker'
