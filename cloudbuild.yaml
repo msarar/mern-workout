@@ -14,10 +14,17 @@ steps:
     args: ['run', 'deploy', 'cr-mern-backend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated']
     dir: 'backend'
 
-  # #get deployment url and write it to workspace
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # # #get deployment url and write it to workspace
+  # - name: 'gcr.io/cloud-builders/gcloud'
+  #   entrypoint: /bin/bash
+  #   args: ['-c', 'gcloud run services describe cr-mern-backend --format="value(status.url)" --region=us-west1 > workspace/url.txt']
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - '-c'
+      - >-
+        gcloud run services describe cr-mern-backend
+        --format='value(status.url)' --region=us-west1 > /workspace/url.txt
     entrypoint: /bin/bash
-    args: ['-c', 'gcloud run services describe cr-mern-backend --format="value(status.url)" --region=us-west1 > workspace/url.txt']
 
   
   # #print the deployment url
