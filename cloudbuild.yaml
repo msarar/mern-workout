@@ -41,9 +41,19 @@ steps:
     args: ['push', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA']
     dir: 'frontend'
   # deploy the frontend image to cloud run
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'deploy', 'cr-mern-frontend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated', '--update-env-vars', 'REACT_APP_BACKEND_URL=$(cat workspace/url.txt)']
-    dir: 'frontend'
+  # - name: 'gcr.io/cloud-builders/gcloud'
+  #   args: ['run', 'deploy', 'cr-mern-frontend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated', '--update-env-vars="REACT_APP_BACKEND_URL=$( < /workspace/url.txt)"']
+  #   dir: 'frontend'
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      - '-c'
+      - >
+        gcloud run deploy cr-mern-frontend
+        --image=us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA
+        --platform=managed --region=us-west1 --allow-unauthenticated
+        --update-env-vars="REACT_APP_BASE_URL=$( < /workspace/url.txt)"
+    dir: frontend
+    entrypoint: /bin/bash
   # #get deployment url and write it to workspace
   # - name: 'gcr.io/cloud-builders/gcloud'
   #   args: ['run', 'services', 'describe', 'cr-mern-frontend', '--platform', 'managed', '--region', 'us-west1', '--format', 'value(status.url)']
