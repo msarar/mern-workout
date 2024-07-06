@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSignUp } from '../hooks/useSignUp';
+import OAuth from '../components/OAuth';
 
 
 
@@ -35,6 +36,7 @@ const Signup = () => {
             />
 
             <button disabled={isLoading}>Sign Up</button>
+            <OAuth />
 
             {error && <div className='error'>{error}</div>}
         </form>
