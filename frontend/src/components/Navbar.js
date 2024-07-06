@@ -15,7 +15,7 @@ const Navbar = () => {
     return ( 
         <header>
             <div className="container">
-                <Link to="/" >Workout Buddy CHECK CLOUD BUILD</Link>
+                <Link to="/" >Workout Buddy</Link>
                 <nav>
                     {user && (
                         <div>
