@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLogin } from '../hooks/useLogin';
+import OAuth from '../components/OAuth';
 
 
 
@@ -36,6 +37,7 @@ const Login = () => {
             />
 
             <button disabled={isLoading}>Log In</button>
+            <OAuth />
             {error && <div className='error'>{error}</div>}
         </form>
      );

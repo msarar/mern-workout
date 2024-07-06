@@ -67,4 +67,21 @@ userSchema.statics.signup = async function (email, password){
     return user;
 }
 
+userSchema.statics.googleLogin = async function (email, name, photoURL){
+    //validation
+    // if(!email){
+    //     throw new Error('Email is required');
+    // }
+    // if(!validator.isEmail(email)){
+    //     throw new Error('Email is not valid');
+    // }
+
+    // const user = await this.findOne({email});
+    // if(!user){
+    //     const newUser = await this.create({email: email, password: 'google'});
+    //     return newUser;
+    // }
+    // return user;
+}
+
 module.exports = mongoose.model('User', userSchema);
