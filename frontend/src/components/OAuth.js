@@ -1,12 +1,14 @@
 import { GoogleAuthProvider, signInWithPopup,  getAuth } from "firebase/auth";
 import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 
 const OAuth = () => {
 
     const auth = getAuth(app);
     const navigate = useNavigate();
+    const { dispatch } = useAuthContext();
 
     const handleGoogleClick = async () => {
         const provider  = new GoogleAuthProvider();
@@ -32,6 +34,9 @@ const OAuth = () => {
                 console.log('User logged in successfully');
                 console.log(data);
                 navigate('/');
+
+                dispatch({ type: 'LOGIN', payload: data });
+
                 // TODO: dispatch here
             }
 

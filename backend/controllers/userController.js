@@ -50,5 +50,6 @@ const googleLogin = async (req, res) => {
 
 module.exports = {
     loginUser,
-    signupUser
+    signupUser, 
+    googleLogin,
 }

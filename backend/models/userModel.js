@@ -69,19 +69,28 @@ userSchema.statics.signup = async function (email, password){
 
 userSchema.statics.googleLogin = async function (email, name, photoURL){
     //validation
-    // if(!email){
-    //     throw new Error('Email is required');
-    // }
-    // if(!validator.isEmail(email)){
-    //     throw new Error('Email is not valid');
-    // }
+    if(!email){
+        throw new Error('Email is required');
+    }
+    if(!validator.isEmail(email)){
+        throw new Error('Email is not valid');
+    }
 
-    // const user = await this.findOne({email});
-    // if(!user){
-    //     const newUser = await this.create({email: email, password: 'google'});
-    //     return newUser;
-    // }
-    // return user;
+    const user = await this.findOne({email});
+    //if user does not exist, create a new user and return it
+    if(!user){
+        //create a randm strong password for google users
+        password = Math.random().toString(36).slice(-8);
+        //add characters and scpecial characters to the password
+        password += 'Aa!1';
+        //hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = await this.create({email: email, password: hashedPassword});
+        return newUser;
+    } 
+    //if user exists return user
+    return user;
 }
 
 module.exports = mongoose.model('User', userSchema);
