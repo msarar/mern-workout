@@ -36,8 +36,12 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)} 
             />
 
-            <button disabled={isLoading}>Log In</button>
-            <OAuth />
+            <div className='auth-btns'>
+                <button disabled={isLoading}>Log In</button>
+                <OAuth />
+            </div>
+
+            
             {error && <div className='error'>{error}</div>}
         </form>
      );

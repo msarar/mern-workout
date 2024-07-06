@@ -34,10 +34,7 @@ const OAuth = () => {
                 console.log('User logged in successfully');
                 console.log(data);
                 navigate('/');
-
                 dispatch({ type: 'LOGIN', payload: data });
-
-                // TODO: dispatch here
             }
 
 
@@ -51,7 +48,7 @@ const OAuth = () => {
 
     return ( 
         <div>
-            <button type="button" onClick={handleGoogleClick}>OAuth</button>
+            <button type="button" className="google_btn" onClick={handleGoogleClick}>Login with Google</button>
         </div>
      );
 }
