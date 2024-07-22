@@ -11,3 +11,12 @@ docker build -t mern-backend .
 docker tag mern-backend us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image
 docker push us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image
 gcloud run deploy cr-mern-backend --image us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image --platform managed --region us-west1 --allow-unauthenticated
+
+
+
+useful commands
+kubectl get pods
+kubectl exec -it <podname> -- bash
+apt-get update && apt-get install -y curl
+curl http://nodejs-service:4000/api/workouts/
+printenv

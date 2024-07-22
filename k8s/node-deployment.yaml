@@ -52,6 +52,7 @@ metadata:
 spec:
   selector:
     app: nodejs
+  type: LoadBalancer
   ports:
     - protocol: TCP
       #port on which service is exposed within the cluster 
