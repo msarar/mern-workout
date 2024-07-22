@@ -20,3 +20,7 @@ kubectl exec -it <podname> -- bash
 apt-get update && apt-get install -y curl
 curl http://nodejs-service:4000/api/workouts/
 printenv
+
+
+
+kubectl run curlpod --image curlimages/curl -- bash curl http://nodejs-service:4000/api/workouts/

@@ -34,7 +34,9 @@ spec:
               key: firebasekey
         #add an env REACT_APP_BASE_URL that references the nodejs-service
         - name: REACT_APP_BASE_URL
-          value: http://nodejs-service:4000
+          # value: http://nodejs-service:4000
+          # value: http://34.82.32.161:4000
+          value: http://nodejs-service.default.svc.cluster.local:4000
               
 ---
 apiVersion: v1
