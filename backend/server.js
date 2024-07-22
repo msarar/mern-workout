@@ -34,7 +34,7 @@ app.use((req, res, next)=>{
 
 
 //routes
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.status(200).json({message: "Backend server is running!"});
 });
 app.use('/api/workouts', workoutsRoutes);
