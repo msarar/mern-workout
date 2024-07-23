@@ -24,9 +24,17 @@ spec:
     spec:
       containers:
       - name: backend-pod
-        image: us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:0bf4bbd
+        image: us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:56aef28
         ports:
         - containerPort: 4000
+        readinessProbe:
+          httpGet:
+            path: /api
+            port: 4000
+        livenessProbe:
+          httpGet:
+            path: /api
+            port: 4000
         env:
         - name: MONGO_URL
           valueFrom:
@@ -43,6 +51,7 @@ spec:
             configMapKeyRef:
               name: configmap-env
               key: portval
+
               
 ---
 apiVersion: v1
@@ -52,11 +61,11 @@ metadata:
 spec:
   selector:
     app: nodejs
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
       #port on which service is exposed within the cluster 
       port: 4000
       # port of the pod
       targetPort: 4000
-  
+      

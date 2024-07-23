@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: frontend-pod
-        image: us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:0bf4bbd
+        image: us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:56aef28
         ports:
         - containerPort: 3000
         env:
@@ -36,7 +36,7 @@ spec:
         - name: REACT_APP_BASE_URL
           # value: http://nodejs-service:4000
           # value: http://34.82.32.161:4000
-          value: http://nodejs-service.default.svc.cluster.local:4000
+          value: ""
               
 ---
 apiVersion: v1
