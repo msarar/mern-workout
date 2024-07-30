@@ -9,12 +9,15 @@ steps:
     args: ['push', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA']
     dir: 'backend'
 
+  #######################################
+  #   - CLOUD RUN BACKEND DEPLOYMENT
+  #######################################
   # deploy the backend image to cloud run
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run', 'deploy', 'cr-mern-backend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated']
     dir: 'backend'
 
-  # # #get deployment url and write it to workspace
+  # #get deployment url and write it to workspace
   # - name: 'gcr.io/cloud-builders/gcloud'
   #   entrypoint: /bin/bash
   #   args: ['-c', 'gcloud run services describe cr-mern-backend --format="value(status.url)" --region=us-west1 > workspace/url.txt']
@@ -25,12 +28,21 @@ steps:
         gcloud run services describe cr-mern-backend
         --format='value(status.url)' --region=us-west1 > /workspace/url.txt
     entrypoint: /bin/bash
-
-  
+      
   # #print the deployment url
   # - name: 'gcr.io/cloud-builders/gcloud'
   #   entrypoint: 'bash'
   #   args: ['-c', 'cat workspace/backend-url.txt']
+
+  #######################################
+  #   - KUBERNETES BACKEND DEPLOYMENT
+  #######################################
+  # - name: 'gcr.io/cloud-builders/kubectl'
+  #   args: ['set', 'image', 'deployment', 'react-deployment', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA']
+
+
+
+
 
   #build the dockerfile in the frontend directory
   - name: 'gcr.io/cloud-builders/docker'
@@ -44,6 +56,10 @@ steps:
   # - name: 'gcr.io/cloud-builders/gcloud'
   #   args: ['run', 'deploy', 'cr-mern-frontend', '--image', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA', '--platform', 'managed', '--region', 'us-west1', '--allow-unauthenticated', '--update-env-vars="REACT_APP_BASE_URL=$( < /workspace/url.txt)"']
   #   dir: 'frontend'
+  
+  #######################################
+  #   - CLOUD RUN FRONTEND DEPLOYMENT
+  #######################################
   - name: gcr.io/cloud-builders/gcloud
     args:
       - '-c'
@@ -57,6 +73,12 @@ steps:
   # #get deployment url and write it to workspace
   # - name: 'gcr.io/cloud-builders/gcloud'
   #   args: ['run', 'services', 'describe', 'cr-mern-frontend', '--platform', 'managed', '--region', 'us-west1', '--format', 'value(status.url)']
+
+  #######################################
+  #   - KUBERNETES FRONTEND DEPLOYMENT
+  #######################################
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'image', 'deployment', 'node-deployment', image=us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA]
 
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment
+  #labels for deployment; used by service
+  labels:
+    #has to be the same label as the pods as service uses this label to find the pods
+    app: reactjs
+spec:
+  replicas: 1
+  # LABEL matched my SELECTOR
+  # tellling deployment to match the pods with the label app: nodejs
+  selector:
+    matchLabels:
+      app: reactjs
+  # template  has its own metadata and spec
+  # blueprint for pod
+  template:
+    metadata:
+      #label for pod; used by deployment
+      labels:
+        app: reactjs
+    spec:
+      containers:
+      - name: frontend-pod
+        image: us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:56aef28
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_FIREBASE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secret-env
+              key: firebasekey
+        #add an env REACT_APP_BASE_URL that references the nodejs-service
+        - name: REACT_APP_BASE_URL
+          # value: http://nodejs-service:4000
+          # value: http://34.82.32.161:4000
+          value: ""
+              
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reactjs-service
+spec:
+  selector:
+    app: reactjs
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      #port on which service is exposed within the cluster 
+      port: 3000
+      # port of the pod
+      targetPort: 3000
+      #nodePort is the port on which service is exposed externaly ranging from 30000-32767
+      nodePort: 30000
