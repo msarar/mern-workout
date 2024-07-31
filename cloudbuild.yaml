@@ -1,4 +1,6 @@
 steps:
+  ##########################################  Backend Deployment Start ##########################################
+
   #build the dockerfile in the backend directory
   - name: 'gcr.io/cloud-builders/docker'    
     args: ['build', '-t', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA', '.']
@@ -40,9 +42,23 @@ steps:
   # - name: 'gcr.io/cloud-builders/kubectl'
   #   args: ['set', 'image', 'deployment', 'react-deployment', 'us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA']
 
+  - name: gcr.io/cloud-builders/gke-deploy
+    args:
+      - run
+      - '--filename=k8s/node-deployment.yaml'
+      - >-
+        --image=us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-backend/uploaded-mern-backend-image:$SHORT_SHA
+      - '--location=us-west1'
+      - '--cluster=mern-workout-cluster'
+      - '--output=./node-output'
+
+
+##########################################  Backend Deployment Done ##########################################
 
 
 
+
+##########################################  Frontend Deployment Start ##########################################
 
   #build the dockerfile in the frontend directory
   - name: 'gcr.io/cloud-builders/docker'
@@ -77,8 +93,17 @@ steps:
   #######################################
   #   - KUBERNETES FRONTEND DEPLOYMENT
   #######################################
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment', 'node-deployment', image=us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA]
+  - name: gcr.io/cloud-builders/gke-deploy
+    args:
+      - run
+      - '--filename=k8s/react-deployment.yaml'
+      - >-
+        --image=us-west1-docker.pkg.dev/mern-cloud-run-cloud-build/ar-mern-frontend/uploaded-mern-frontend-image:$SHORT_SHA
+      - '--location=us-west1'
+      - '--cluster=mern-workout-cluster'
+      - '--output=./react-output'
+
+##########################################  Frontend Deployment Done ##########################################
 
 options:
   logging: CLOUD_LOGGING_ONLY
