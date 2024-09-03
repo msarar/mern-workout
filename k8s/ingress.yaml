@@ -3,11 +3,14 @@ kind: Ingress
 metadata:
   name: mern-ingress
   annotations:
-  #   kubernetes.io/ingress.regional-static-ip-name: "mern-ip"
-    kubernetes.io/ingress.allow-http: "true" 
+    kubernetes.io/ingress.global-static-ip-name: "mern-ip"
+    kubernetes.io/ingress.allow-http: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
   rules:
-  - http:
+  - host: frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
+    http:
       paths:
       - pathType: ImplementationSpecific
         path: "/*"
@@ -23,3 +26,8 @@ spec:
             name: nodejs-service
             port:
               number: 4000
+  tls:
+    - hosts:
+      - frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
+      # secretName: mern-certificate-staging-tls
+      secretName: mern-certificate-production-tls

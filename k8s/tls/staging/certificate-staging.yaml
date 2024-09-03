@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mern-certificate-staging
+  namespace: default
+spec:
+  # Secret names are always required. Secret where the certificate will be stored
+  secretName: mern-certificate-staging-tls
+  # issuerRef is required. It is the reference to the issuer that will be used to issue the certificate
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  # dnsNames is required. It is the list of domain names that the certificate should be issued for
+  commonName: frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
+  dnsNames:
+  - frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
+  
+

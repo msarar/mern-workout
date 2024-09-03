@@ -24,3 +24,72 @@ printenv
 
 
 kubectl run curlpod --image curlimages/curl -- bash curl http://nodejs-service:4000/api/workouts/
+
+
+
+
+********
+pre tls
+********
+1. Cloud shell create static ip: gcloud compute addresses create mern-ip --global
+2. get ip address: export GCLB_IP=$(gcloud compute addresses describe mern-ip --global --format "value(address)")
+echo ${GCLB_IP}
+3. Run the following command to create the YAML specification file named dns-spec.yaml:
+export WORKDIR=`pwd`
+export PROJECT=mern-cloud-run-cloud-build (should bbe your project id)
+cat <<EOF > ${WORKDIR}/dns-spec.yaml
+swagger: "2.0"
+info:
+  description: "Cloud Endpoints DNS"
+  title: "Cloud Endpoints DNS"
+  version: "1.0.0"
+paths: {}
+host: "frontend.endpoints.${PROJECT}.cloud.goog"
+x-google-endpoints:
+- name: "frontend.endpoints.${PROJECT}.cloud.goog"
+  target: "${GCLB_IP}"
+EOF
+
+4. Deploy the dns-spec.yaml file in your Google Cloud project:
+gcloud endpoints services deploy ${WORKDIR}/dns-spec.yaml
+
+domain is now ours
+frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
+
+powershell as administrator:
+choco install kubernetes-helm (for windows)
+helm repo add jetstack https://charts.jetstack.io --force-update
+
+----skip---
+helm install cert-manager cert-manager --repo https://charts.jetstack.io --create-namespace --namespace cert-manager --set installCRDS=true
+helm install  cert-manager jetstack/cert-manager  --namespace cert-manager --create-namespace  --version v1.15.2  --set crds.enabled=true
+helm install cert-manager jetstack/cert-manager  --namespace default  --version v1.15.2 --set crds.enabled=true --set rbac.create=false
+
+helm uninstall cert-manager -n cert-manager
+kubectl delete crd  issuers.cert-manager.io clusterissuers.cert-manager.io certificates.cert-manager.io certificaterequests.cert-manager.io  orders.acme.cert-manager.io challenges.acme.cert-manager.io
+----skip---
+
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install --create-namespace --namespace cert-manager --set installCRDs=true --set global.leaderElection.namespace=cert-manager cert-manager jetstack/cert-manager
+
+create fake tls secret (placeholder)
+create issuer
+create certificate
+update ingress
+
+kubectl apply -f <fake tls secret filename>
+
+kubectl apply -f <issuer_filename>
+kubectl describe clusterissuer <issuer_name> (look for ACMEAccountRegistered, Ready)
+kubectl describe clusterissuer letsencrypt-production
+
+kubectl apply -f <certificate_filename>
+kubectl get certificate
+watch 'kubectl describe certificate <certificate_name> | grep 'Events:' -A 20'
+
+kubectl apply -f .\ingress.yaml
+kubectl get ingress mern-ingress -o yaml
+kubectl get challenges
+kubectl describe challenges
+kubectl describe ingress <ingress_name>

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mern-certificate-production
+  namespace: default
+spec:
+  secretName: mern-certificate-production-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
+  dnsNames:
+  - frontend.endpoints.mern-cloud-run-cloud-build.cloud.goog
