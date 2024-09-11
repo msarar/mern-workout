@@ -15,7 +15,7 @@ const Navbar = () => {
     return ( 
         <header>
             <div className="container">
-                <Link to="/" >Workout Buddy GKE CICD check</Link>
+                <Link to="/" >Workout Buddy</Link>
                 <nav>
                     {user && (
                         <div>
